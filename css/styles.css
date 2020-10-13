@@ -1,0 +1,147 @@
+h1{
+    font-family:"Ubuntu";
+    color:#fef0ff;
+}
+
+.container-fluid{
+    padding: 7% 0%;
+  }
+  
+  .colored-section{
+  background-color: #142850;
+    color:#fff;
+  }
+
+
+/* Navigation Bar */
+.navbar-dark .navbar-brand{
+    font-family: "Ubuntu";
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #e84545;
+    font-style: italic;
+  }
+  
+  .navbar{
+    padding:  0 0 4.5rem;
+  }
+  
+  .nav-item{
+    padding:0 18px;
+  }
+  
+  .nav-link{
+    font-size: 1.2rem;
+    font-family:"Ubuntu";
+    font-weight: bold;
+    color:#fbafaf;
+  }
+
+  #child-navbar{
+    padding:  0 0 2.5rem;
+  }
+  /* Headings */
+
+.big-heading{
+    padding-top: 2%;
+    font-size: 3.5rem;
+    line-height: 1.5;
+    font-weight: 900;
+    text-align: center;
+}
+
+#title{
+  background-color: #142850;
+  color: #ffffff;
+  text-align: left;
+}
+
+#subpagetitle{
+  color: #142850;
+  text-align: left;
+  padding-bottom: 3%;
+}
+
+#title .container-fluid{
+  padding: 3% 15% 7%;
+}
+
+#features{
+  padding: 5rem 3rem 5rem 3rem;
+  text-align: center;
+}
+
+#child-title .container-fluid{
+  padding: 3% 15% 1%;
+  background-color: #142850;
+  color: #ffffff;
+  text-align: left;
+}
+
+  /* Title Image */
+
+.title-image{
+    width:100%;
+    position: absolute;
+    z-index: 0;
+    right: 5%;
+  }
+  
+
+  /* Buttons */
+
+  .explore-button{
+    margin: 8% 2% 0% 0; 
+    padding: 1em 2em;
+    font-family: "Ubuntu";
+    font-weight: bold;
+    font-size: 1.75rem;
+    background-color: #e23e57;
+    color:#fef0ff;
+  }
+
+  /* Lower section */
+  
+  .icon{
+    color:#fbafaf;
+    padding-bottom: 1rem;
+  }
+  
+  .icon:hover{
+    color:#ff4c68;
+  }
+  
+  #features{
+    position:relative;
+    z-index: 1;
+  }
+
+  .aligned{
+    padding-left: 15%;
+  }
+
+  .descriptionBox{
+    width:85%;
+    padding-bottom: 15%;;
+  }
+
+  .formTitle{
+    font-family: "Ubuntu";
+    padding-top: 1%;
+    padding-bottom: 1%;
+  }
+
+  .inputBox{
+    width:85%;
+    padding-bottom: 2%;
+  }
+
+  #footer{
+    padding-top: 10%;
+    text-align: center;
+  }
+
+  .icons{
+    margin-left: auto;
+    margin-right: auto;
+  }
