@@ -6,7 +6,8 @@ createForm.addEventListener('submit', function (event) {
     const data = {
         firstName: this.firstName.value,
         lastName: this.lastName.value,
-        balance: this.balance.value
+        balance: this.balance.value,
+        pass:this.pass.value
     }
 
     fetch("http://localhost:8080/account/createAccount", { //Make request
