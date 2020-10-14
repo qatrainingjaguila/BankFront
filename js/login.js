@@ -80,13 +80,15 @@ function renderAccount(data){   //REFACTORING REQUIRED
         payButton.innerText = "Pay";
         paymentForm.appendChild(payButton);
 
+        /* payment form */
         paymentForm.addEventListener("submit", function (event){
             event.preventDefault();
             console.log(this.payee.value);
             console.log(this.amount.value);
+            console.log(data.id);
             const payer = data.id; //uses id, not accNo
             const amount = this.amount.value;
-            const payee = this.payee;
+            const payee = this.payee.value;
             makePayment(payer,amount,payee);
         })
 
@@ -190,11 +192,12 @@ function renderAccount(data){   //REFACTORING REQUIRED
 
     }
     //TODO: BACKEND TAKES IN ID, but RecipientId refers to payee accountNumber
-    function makePayment(accountNumber,amount,payee){
+    function makePayment(Id,amount,payee){
+        console.log("userId is"+Id);
         const dataBody = {
-            userId:accountNumber.value,   //TODO: in spring refers to id not accNo
-            amount:amount.value,
-            recipientId:payee.value
+            userId:Id,  
+            amount:amount,
+            recipientId:payee
         }
 
         fetch("http://localhost:8080/payment/createPayment",{
