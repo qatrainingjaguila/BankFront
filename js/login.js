@@ -188,6 +188,6 @@ function renderAccount(data){   //REFACTORING REQUIRED
                 console.log(response);
                 renderAccount(data);
             }).catch(error=>console.error(error));
-        }
-    }
+        } //dev test
+    
     
