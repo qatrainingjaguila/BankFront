@@ -56,7 +56,7 @@ h1{
   text-align: left;
 }
 
-#subpagetitle{
+#subpagetitle{  /* REFACTOR INTO A CLASS */
   color: #142850;
   text-align: left;
   padding-bottom: 3%;
