@@ -43,6 +43,25 @@ function renderAccount(data){   //REFACTORING REQUIRED
         showBalance.innerText = "Balance: £" + data.balance;
         accountOutput.appendChild(showBalance);
 
+        /* Refresh Balance Button*/
+        const refreshForm = document.createElement("form");
+        refreshForm.className = "aligned";
+        refreshForm.innerHTML = '';
+
+        const refreshButton = document.createElement("button");
+        refreshButton.className = "btn btn-lg btn btn-lg btn-light explore-button";
+        refreshButton.type = "submit";
+        refreshButton.innerText = "Refresh balance";
+        refreshForm.appendChild(refreshButton);
+
+        refreshForm.addEventListener("submit",function (event){
+            event.preventDefault();
+            console.log(data.id);
+            getAccount(data.id);
+        })
+
+        accountOutput.appendChild(refreshForm);
+
          /* payment */
         const payTitle = document.createElement("h1");
         payTitle.className = "big-heading aligned";
@@ -253,6 +272,16 @@ function renderAccount(data){   //REFACTORING REQUIRED
         else{
             return stringParam;
         }
+    }
+
+    function getAccount(Id){
+        fetch("http://localhost:8080/account/get/"+Id, {
+            method:"GET"
+        }).then(response =>{
+            return response.json();
+        }).then(data=>{
+            renderAccount(data);
+        }).catch(error=>console.error(error));
     }
     
     
