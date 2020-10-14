@@ -110,7 +110,7 @@ function renderAccount(data){   //REFACTORING REQUIRED
   
            /* input div */
           const newDiv3 = document.createElement('div');
-          newDiv3.innerHTML = '<input class="w-50 form-control loginput" id="updateFirstNameInput" name = "firstName"/>';
+          newDiv3.innerHTML = '<input class="w-50 form-control loginput" id="updateFirstNameInput" name ="firstName"/>';
           updateForm.appendChild(newDiv3);
   
           const lastNameLabel = document.createElement("label");
@@ -120,7 +120,7 @@ function renderAccount(data){   //REFACTORING REQUIRED
   
           /* input div */
           const newDiv4 = document.createElement('div');
-          newDiv4.innerHTML = '<input class="w-50 form-control loginput" id="updateLastNameInput" name = "lastName"/>';
+          newDiv4.innerHTML = '<input class="w-50 form-control loginput" id="updateLastNameInput" name ="lastName"/>';
           updateForm.appendChild(newDiv4);
 
          /* TODO: UPDATE BALANCE - ALTER TO USE DROPDOWN OPTIONS */
@@ -131,27 +131,28 @@ function renderAccount(data){   //REFACTORING REQUIRED
   
           /* input div */
           const newDiv5 = document.createElement('div');
-          newDiv5.innerHTML = '<input class="w-50 form-control loginput" id="updateBalanceInput" name = "newBalance"/>';
-          updateForm.appendChild(newDiv4);
+          newDiv5.innerHTML = '<input class="w-50 form-control loginput" id="updateBalanceInput" name ="newBalance"/>';
+          updateForm.appendChild(newDiv5);
   
           const updateButton = document.createElement("button");
-          payButton.className = "btn btn-lg btn btn-lg btn-light explore-button";
-          payButton.type = "submit";
-          payButton.innerText = "Update details";
-          updateForm.appendChild(payButton);
+          updateButton.className = "btn btn-lg btn btn-lg btn-light explore-button";
+          updateButton.type = "submit";
+          updateButton.innerText = "Update details";
+          updateForm.appendChild(updateButton);
   
           updateForm.addEventListener("submit", function (event){
-              event.preventDefault();
-              console.log(this.firstName.value);
-              console.log(this.lastName.value);
-              const newFirstName = this.firstName.value
-              const newLastName = this.lastName.value
-              const newBalance = this.newBalance.value;
+            event.preventDefault();
+              const newFirstName = checkIfNull(this.firstName.value);
+              const newLastName = checkIfNull(this.firstName.value);
+              const newBalance = checkIfNull(this.firstName.value);
+              
               updateAccount(newFirstName,newLastName,newBalance,data.id); //TODO
           })
 
-    }
+          accountOutput.appendChild(updateForm);
 
+    }
+    //TODO: BACKEND TAKES IN ID, but RecipientId refers to payee accountNumber
     function makePayment(accountNumber,amount,payee){
         const dataBody = {
             userId:accountNumber.value,   //TODO: in spring refers to id not accNo
@@ -174,9 +175,9 @@ function renderAccount(data){   //REFACTORING REQUIRED
         /*  CURRENT BACKEND TAKES IN ID  */
     function updateAccount(newFirstName,newLastName,newBalance,id){
         const data = {
-            firstName:newFirstName.value,
-            lastName:newLastName.value,
-            balance:newBalance.value
+            firstName:newFirstName,
+            lastName:newLastName,
+            balance:newBalance
         }
         fetch("http://localhost:8080/account/updateAccount/?id=" + id,{
             method:"PUT",
@@ -186,8 +187,19 @@ function renderAccount(data){   //REFACTORING REQUIRED
             }
             }).then(response=>{
                 console.log(response);
+                return response.json();
+            }).then(data=>{
                 renderAccount(data);
             }).catch(error=>console.error(error));
         } //dev test
+
+    function checkIfNull(stringParam){
+        if (stringParam === ""){
+            return null;
+        }
+        else{
+            return stringParam;
+        }
+    }
     
     
