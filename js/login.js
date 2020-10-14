@@ -87,7 +87,7 @@ function renderAccount(data){   //REFACTORING REQUIRED
             const payer = data.accountNumber; 
             const amount = this.amount.value;
             const payee = this.payee.value; //TODO:currently takes id, not accNo
-            makePayment(accountNumber,amount,payee);
+            makePayment(payer,amount,payee);
         })
 
         accountOutput.appendChild(paymentForm);
@@ -134,6 +134,15 @@ function renderAccount(data){   //REFACTORING REQUIRED
           newDiv5.innerHTML = '<input class="w-50 form-control loginput" id="updateBalanceInput" name ="newBalance"/>';
           updateForm.appendChild(newDiv5);
   
+          const newPassLabel = document.createElement("label");
+          newPassLabel.htmlFor = 'updatePassInput';
+          newPassLabel.innerText = "Update Password:";
+          updateForm.appendChild(newPassLabel);
+
+          const newDiv6 = document.createElement('div');
+          newDiv6.innerHTML = '<input class="w-50 form-control loginput" id="updatePassInput" name ="newPass"/>';
+          updateForm.appendChild(newDiv6);
+  
           const updateButton = document.createElement("button");
           updateButton.className = "btn btn-lg btn btn-lg btn-light explore-button";
           updateButton.type = "submit";
@@ -143,13 +152,41 @@ function renderAccount(data){   //REFACTORING REQUIRED
           updateForm.addEventListener("submit", function (event){
             event.preventDefault();
               const newFirstName = checkIfNull(this.firstName.value);
-              const newLastName = checkIfNull(this.firstName.value);
-              const newBalance = checkIfNull(this.firstName.value);
+              const newLastName = checkIfNull(this.lastName.value);
+              const newBalance = checkIfNull(this.newBalance.value);
+              const newPass = checkIfNull(this.newPass.value);
               
-              updateAccount(newFirstName,newLastName,newBalance,data.id); //TODO
+              updateAccount(newFirstName,newLastName,newBalance,newPass,data.id);
           })
 
           accountOutput.appendChild(updateForm);
+
+           /* Delete my Account */
+           const deleteForm = document.createElement('form');
+           deleteForm.className = "aligned";
+           deleteForm.innerHTML = '';
+
+           const deleteTitle = document.createElement("h1");
+           deleteTitle.className = "big-heading";
+           deleteTitle.id = "subpagetitle";
+           deleteTitle.innerText = "Delete my Account";
+           deleteForm.appendChild(deleteTitle);
+
+           const deleteButton = document.createElement("button");
+           deleteButton.className = "btn btn-lg btn btn-lg btn-light explore-button";
+           deleteButton.style.backgroundColor = "red";
+           deleteButton.type = "submit";
+           deleteButton.innerText = "DELETE";
+           deleteForm.appendChild(deleteButton);
+
+           deleteForm.addEventListener("submit", function(event){
+               event.preventDefault();
+               console.log(data.id);
+               debugger;
+               deleteAccount(data.id);
+           })
+           
+           accountOutput.appendChild(deleteForm);
 
     }
     //TODO: BACKEND TAKES IN ID, but RecipientId refers to payee accountNumber
@@ -173,11 +210,12 @@ function renderAccount(data){   //REFACTORING REQUIRED
         }
 
         /*  CURRENT BACKEND TAKES IN ID  */
-    function updateAccount(newFirstName,newLastName,newBalance,id){
+    function updateAccount(newFirstName,newLastName,newBalance,newPass,id){
         const data = {
             firstName:newFirstName,
             lastName:newLastName,
-            balance:newBalance
+            balance:newBalance,
+            pass:newPass
         }
         fetch("http://localhost:8080/account/updateAccount/?id=" + id,{
             method:"PUT",
@@ -191,9 +229,21 @@ function renderAccount(data){   //REFACTORING REQUIRED
             }).then(data=>{
                 renderAccount(data);
             }).catch(error=>console.error(error));
-        } //dev test
+        }
 
+    function deleteAccount(currentId){
+        const id = currentId;
+        fetch("http://localhost:8080/account/deleteAccount/" + id, {
+            method: "DELETE"
+        }).then(response =>{
+            console.log(response);
+            window.location.href = "../index.html";
+        }).catch(error=>console.error(error));
+    }
+
+        /* Format empty strings */
     function checkIfNull(stringParam){
+        console.log(stringParam);
         if (stringParam === ""){
             return null;
         }
