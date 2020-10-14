@@ -84,9 +84,9 @@ function renderAccount(data){   //REFACTORING REQUIRED
             event.preventDefault();
             console.log(this.payee.value);
             console.log(this.amount.value);
-            const payer = data.accountNumber; 
+            const payer = data.id; //uses id, not accNo
             const amount = this.amount.value;
-            const payee = this.payee.value; //TODO:currently takes id, not accNo
+            const payee = this.payee;
             makePayment(payer,amount,payee);
         })
 
