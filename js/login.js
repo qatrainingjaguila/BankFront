@@ -1,6 +1,8 @@
 const loginForm = document.getElementById("loginForm");
 const loginDiv = document.getElementById("loginDiv");
 const accountOutput = document.getElementById("accountDiv");
+const loginErrorOutput = document.getElementById("errorDiv");
+
 
 loginForm.addEventListener('submit', function (event) {
     event.preventDefault();
@@ -21,8 +23,16 @@ loginForm.addEventListener('submit', function (event) {
         return response.json(); // Convert response body to json
     }).then(data => { //json data from previous .then()
         console.log(data.firstName);
-        this.reset();
-        renderAccount(data);
+        if (typeof data.firstName !== 'undefined'){
+            this.reset();
+            renderAccount(data);
+        }
+        else {
+            const errorMsg = document.createElement("p");
+            errorMsg.innerText = 'Incorrect username/password';
+            loginErrorOutput.appendChild(errorMsg);
+        }
+    
     }).catch(error => console.log(error));
 });
 
