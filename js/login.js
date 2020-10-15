@@ -273,15 +273,10 @@ function renderAccount(data){   //REFACTORING REQUIRED
         }).catch(error=>console.error(error));
     }
 
-        /* Format empty strings */
+        /*Format empty strings */
     function checkIfNull(stringParam){
         console.log(stringParam);
-        if (stringParam === ""){
-            return null;
-        }
-        else{
-            return stringParam;
-        }
+        return (stringParam === "") ? null : stringParam;
     }
 
     function getAccount(Id){
