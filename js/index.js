@@ -25,7 +25,7 @@ createForm.addEventListener('submit', function (event) {
         const bespokeMessage = document.createElement("p");
         bespokeMessage.innerText = "Your account number is " + data.accountNumber;
         const warningMessage = document.createElement("p");
-        warningMessage.innerText = "You will use this to login";
+        warningMessage.innerText = "You will use this number to login";
         modalBody.appendChild(bespokeMessage);
         modalBody.appendChild(warningMessage);
         this.reset();        
