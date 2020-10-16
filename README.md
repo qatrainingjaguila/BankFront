@@ -1,7 +1,6 @@
 # Cloud Native Fundamental Project
 
 ### Resources:
-* Presentation: Insert link here
 * JIRA Board: https://qatraineejaguila.atlassian.net/secure/RapidBoard.jspa?rapidView=1&projectKey=PCI&view=planning&selectedIssue=PCI-7&epics=visible&issueLimit=100
 
 ## Contents
