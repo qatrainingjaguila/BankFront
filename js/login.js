@@ -1,6 +1,8 @@
 const loginForm = document.getElementById("loginForm");
 const loginDiv = document.getElementById("loginDiv");
 const accountOutput = document.getElementById("accountDiv");
+const loginErrorOutput = document.getElementById("errorDiv");
+
 
 loginForm.addEventListener('submit', function (event) {
     event.preventDefault();
@@ -21,8 +23,16 @@ loginForm.addEventListener('submit', function (event) {
         return response.json(); // Convert response body to json
     }).then(data => { //json data from previous .then()
         console.log(data.firstName);
-        this.reset();
-        renderAccount(data);
+        if (typeof data.firstName !== 'undefined'){
+            this.reset();
+            renderAccount(data);
+        }
+        else {
+            const errorMsg = document.createElement("p");
+            errorMsg.innerText = 'Incorrect username/password';
+            loginErrorOutput.appendChild(errorMsg);
+        }
+    
     }).catch(error => console.log(error));
 });
 
@@ -42,6 +52,25 @@ function renderAccount(data){   //REFACTORING REQUIRED
         showBalance.className = "aligned formTitle";
         showBalance.innerText = "Balance: £" + data.balance;
         accountOutput.appendChild(showBalance);
+
+        /* Refresh Balance Button*/
+        const refreshForm = document.createElement("form");
+        refreshForm.className = "aligned";
+        refreshForm.innerHTML = '';
+
+        const refreshButton = document.createElement("button");
+        refreshButton.className = "btn btn-lg btn btn-lg btn-light explore-button";
+        refreshButton.type = "submit";
+        refreshButton.innerText = "Refresh balance";
+        refreshForm.appendChild(refreshButton);
+
+        refreshForm.addEventListener("submit",function (event){
+            event.preventDefault();
+            console.log(data.id);
+            getAccount(data.id);
+        })
+
+        accountOutput.appendChild(refreshForm);
 
          /* payment */
         const payTitle = document.createElement("h1");
@@ -80,14 +109,16 @@ function renderAccount(data){   //REFACTORING REQUIRED
         payButton.innerText = "Pay";
         paymentForm.appendChild(payButton);
 
+        /* payment form */
         paymentForm.addEventListener("submit", function (event){
             event.preventDefault();
             console.log(this.payee.value);
             console.log(this.amount.value);
-            const payer = data.accountNumber; 
+            console.log(data.id);
+            const payer = data.id; //uses id, not accNo
             const amount = this.amount.value;
-            const payee = this.payee.value; //TODO:currently takes id, not accNo
-            makePayment(accountNumber,amount,payee);
+            const payee = this.payee.value;
+            makePayment(payer,amount,payee);
         })
 
         accountOutput.appendChild(paymentForm);
@@ -110,7 +141,7 @@ function renderAccount(data){   //REFACTORING REQUIRED
   
            /* input div */
           const newDiv3 = document.createElement('div');
-          newDiv3.innerHTML = '<input class="w-50 form-control loginput" id="updateFirstNameInput" name = "firstName"/>';
+          newDiv3.innerHTML = '<input class="w-50 form-control loginput" id="updateFirstNameInput" name ="firstName"/>';
           updateForm.appendChild(newDiv3);
   
           const lastNameLabel = document.createElement("label");
@@ -120,7 +151,7 @@ function renderAccount(data){   //REFACTORING REQUIRED
   
           /* input div */
           const newDiv4 = document.createElement('div');
-          newDiv4.innerHTML = '<input class="w-50 form-control loginput" id="updateLastNameInput" name = "lastName"/>';
+          newDiv4.innerHTML = '<input class="w-50 form-control loginput" id="updateLastNameInput" name ="lastName"/>';
           updateForm.appendChild(newDiv4);
 
          /* TODO: UPDATE BALANCE - ALTER TO USE DROPDOWN OPTIONS */
@@ -131,32 +162,71 @@ function renderAccount(data){   //REFACTORING REQUIRED
   
           /* input div */
           const newDiv5 = document.createElement('div');
-          newDiv5.innerHTML = '<input class="w-50 form-control loginput" id="updateBalanceInput" name = "newBalance"/>';
-          updateForm.appendChild(newDiv4);
+          newDiv5.innerHTML = '<input class="w-50 form-control loginput" id="updateBalanceInput" name ="newBalance"/>';
+          updateForm.appendChild(newDiv5);
+  
+          const newPassLabel = document.createElement("label");
+          newPassLabel.htmlFor = 'updatePassInput';
+          newPassLabel.innerText = "Update Password:";
+          updateForm.appendChild(newPassLabel);
+
+          const newDiv6 = document.createElement('div');
+          newDiv6.innerHTML = '<input class="w-50 form-control loginput" id="updatePassInput" name ="newPass"/>';
+          updateForm.appendChild(newDiv6);
   
           const updateButton = document.createElement("button");
-          payButton.className = "btn btn-lg btn btn-lg btn-light explore-button";
-          payButton.type = "submit";
-          payButton.innerText = "Update details";
-          updateForm.appendChild(payButton);
+          updateButton.className = "btn btn-lg btn btn-lg btn-light explore-button";
+          updateButton.type = "submit";
+          updateButton.innerText = "Update details";
+          updateForm.appendChild(updateButton);
   
           updateForm.addEventListener("submit", function (event){
-              event.preventDefault();
-              console.log(this.firstName.value);
-              console.log(this.lastName.value);
-              const newFirstName = this.firstName.value
-              const newLastName = this.lastName.value
-              const newBalance = this.newBalance.value;
-              updateAccount(newFirstName,newLastName,newBalance,data.id); //TODO
+            event.preventDefault();
+              const newFirstName = checkIfNull(this.firstName.value);
+              const newLastName = checkIfNull(this.lastName.value);
+              const newBalance = checkIfNull(this.newBalance.value);
+              const newPass = checkIfNull(this.newPass.value);
+              
+              updateAccount(newFirstName,newLastName,newBalance,newPass,data.id);
           })
 
-    }
+          accountOutput.appendChild(updateForm);
 
-    function makePayment(accountNumber,amount,payee){
+           /* Delete my Account */
+           const deleteForm = document.createElement('form');
+           deleteForm.className = "aligned";
+           deleteForm.innerHTML = '';
+
+           const deleteTitle = document.createElement("h1");
+           deleteTitle.className = "big-heading";
+           deleteTitle.id = "subpagetitle";
+           deleteTitle.innerText = "Delete my Account";
+           deleteForm.appendChild(deleteTitle);
+
+           const deleteButton = document.createElement("button");
+           deleteButton.className = "btn btn-lg btn btn-lg btn-light explore-button";
+           deleteButton.style.backgroundColor = "red";
+           deleteButton.type = "submit";
+           deleteButton.innerText = "DELETE";
+           deleteForm.appendChild(deleteButton);
+
+           deleteForm.addEventListener("submit", function(event){
+               event.preventDefault();
+               console.log(data.id);
+               debugger;
+               deleteAccount(data.id);
+           })
+           
+           accountOutput.appendChild(deleteForm);
+
+    }
+    //TODO: BACKEND TAKES IN ID, but RecipientId refers to payee accountNumber
+    function makePayment(Id,amount,payee){
+        console.log("userId is"+Id);
         const dataBody = {
-            userId:accountNumber.value,   //TODO: in spring refers to id not accNo
-            amount:amount.value,
-            recipientId:payee.value
+            userId:Id,  
+            amount:amount,
+            recipientId:payee
         }
 
         fetch("http://localhost:8080/payment/createPayment",{
@@ -172,11 +242,12 @@ function renderAccount(data){   //REFACTORING REQUIRED
         }
 
         /*  CURRENT BACKEND TAKES IN ID  */
-    function updateAccount(newFirstName,newLastName,newBalance,id){
+    function updateAccount(newFirstName,newLastName,newBalance,newPass,id){
         const data = {
-            firstName:newFirstName.value,
-            lastName:newLastName.value,
-            balance:newBalance.value
+            firstName:newFirstName,
+            lastName:newLastName,
+            balance:newBalance,
+            pass:newPass
         }
         fetch("http://localhost:8080/account/updateAccount/?id=" + id,{
             method:"PUT",
@@ -186,8 +257,36 @@ function renderAccount(data){   //REFACTORING REQUIRED
             }
             }).then(response=>{
                 console.log(response);
+                return response.json();
+            }).then(data=>{
                 renderAccount(data);
             }).catch(error=>console.error(error));
         }
+
+    function deleteAccount(currentId){
+        const id = currentId;
+        fetch("http://localhost:8080/account/deleteAccount/" + id, {
+            method: "DELETE"
+        }).then(response =>{
+            console.log(response);
+            window.location.href = "../index.html";
+        }).catch(error=>console.error(error));
     }
+
+        /*Format empty strings */
+    function checkIfNull(stringParam){
+        console.log(stringParam);
+        return (stringParam === "") ? null : stringParam;
+    }
+
+    function getAccount(Id){
+        fetch("http://localhost:8080/account/get/"+Id, {
+            method:"GET"
+        }).then(response =>{
+            return response.json();
+        }).then(data=>{
+            renderAccount(data);
+        }).catch(error=>console.error(error));
+    }
+    
     

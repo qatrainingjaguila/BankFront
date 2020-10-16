@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Capital Juan - Log In</title>
+    <title>Plunder - Log In</title>
     <link rel="shortcut icon" type="image/jpg" href="../images/favicon.png" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
@@ -25,7 +25,7 @@
 
             <!-- Nav Bar -->
             <nav id="child-navbar" class="navbar navbar-expand-lg navbar-dark">
-                <a class="navbar-brand" href="/index.html">Capital Juan</a>
+                <a class="navbar-brand" href="/index.html">Plunder</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse"
                     data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                     aria-label="Toggle navigation">
@@ -34,7 +34,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="/html/">Sign up</a>
+                            <a class="nav-link" href="/html/Signup.html">Sign up</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/html/Login.html">Log in</a>
@@ -47,6 +47,9 @@
 
     <div id="loginDiv" class="aligned">
         <h1 id="subpagetitle" class="big-heading">Log in</h1>
+        <div id="errorDiv">
+
+        </div>
         <form class="ml-3" id="loginForm">
             <div class="form-group">
                 <label for="accountNoInput">Account Number</label>
@@ -59,10 +62,28 @@
             <button type="submit" class="btn btn-lg btn btn-lg btn-light explore-button">Log in</button>
         </form>
     </div>
+   
     <div id="accountDiv">
 
     </div>
-    
+
+     <!-- Footer -->
+
+  <footer id="footer" class="white-section">
+    <div class="row">
+      <div class="icons">
+
+
+        <i class="fab fa-twitter"></i>
+        <i class="fab fa-facebook-square"></i>
+        <i class="fab fa-instagram-square"></i>
+        <i class="fas fa-envelope-square"></i>
+      </div>
+    </div>
+    <p>© Copyright 2018 Plunder</p>
+
+  </footer>
+
 </body>
 <script src='/js/login.js'></script>
 </html>

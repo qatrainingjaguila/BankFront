@@ -91,12 +91,22 @@ h1{
   /* Buttons */
 
   .explore-button{
-    margin: 8% 2% 0% 0; 
+    margin: 8% 2% 2% 0; 
     padding: 1em 2em;
     font-family: "Ubuntu";
     font-weight: bold;
     font-size: 1.75rem;
     background-color: #e23e57;
+    color:#fef0ff;
+  }
+
+  .delete-button{
+    margin: 8% 2% 0% 0; 
+    padding: 1em 2em;
+    font-family: "Ubuntu";
+    font-weight: bold;
+    font-size: 1.75rem;
+    background-color: red;
     color:#fef0ff;
   }
 
